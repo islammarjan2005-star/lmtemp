@@ -1,19 +1,19 @@
-The number of payrolled employees (PAYE) continued to N1, N2 by N3 (N4%) on the year, and by N5 (N6%) on the quarter in LFS_PERIOD_LABEL (the period comparable with LFS).
+The number of payrolled employees (PAYE) continued to N1_dir, N1_dir_ing by N1_dy_abs (N1_dy_pct%) on the year, and by N1_dq_abs (N1_dq_pct%) on the quarter in LFS_PERIOD_LABEL (the period comparable with LFS).
 
-The 'flash' estimate for O1 suggests payroll employees O2 by O3 (O4%) on the year, and O5 (O6%) on the month, O7.
+The 'flash' estimate for O2_label suggests payroll employees O2_dir by O2_dy_abs (O2_dy_pct%) on the year, and O2_dm_abs (O2_dm_pct%) on the month, O2_revision.
 
-Workforce jobs data shows a fall of P1 jobs on the quarter (P2%), mostly driven by P3. On the year, jobs fell by P4 (P5%).
+Workforce jobs data shows a fall of P3_dq_abs jobs on the quarter (P3_dq_pct%), mostly driven by P3_driver. On the year, jobs fell by P3_dy_abs (P3_dy_pct%).
 
-Vacancies remain broadly unchanged, Q1 slightly by Q2 (Q3%) on the quarter to Q4 in LFS_PERIOD_LABEL.
+Vacancies remain broadly unchanged, Q4_dir_ing slightly by Q4_dq_abs (Q4_dq_pct%) on the quarter to Q4_cur in LFS_PERIOD_LABEL.
 
-Labour Force Survey (LFS) suggests that in LFS_PERIOD_LABEL, the employment rate R1 to R2%, R3 percentage points compared to the previous quarter. On the quarter, unemployment slightly R4 to R5% (R6 percentage points) and inactivity R7 marginally to R8% (R9 percentage points).
+Labour Force Survey (LFS) suggests that in LFS_PERIOD_LABEL, the employment rate R5_emp_dir to R5_emp_cur%, R5_emp_dq percentage points compared to the previous quarter. On the quarter, unemployment slightly R5_unemp_dir to R5_unemp_cur% (R5_unemp_dq percentage points) and inactivity R5_inact_dir marginally to R5_inact_cur% (R5_inact_dq percentage points).
 
-Youth unemployment saw a substantial rise, with the number of unemployed 18-24 year olds rising by S1 on the quarter, S2, as the number of 18- to 24-year-olds out of work, at S3, rose to its highest level since 2015.
+Youth unemployment saw a substantial rise, with the number of unemployed 18-24 year olds rising by S6_dq on the quarter, S6_context, as the number of 18- to 24-year-olds out of work, at S6_level, rose to its highest level since 2015.
 
-In contrast, the monthly drop in payrolled employees was largest for 25-34 year olds (T1), followed by 50-64 year olds (T2), and 18-24 year olds (T3).
+In contrast, the monthly drop in payrolled employees was largest for 25-34 year olds (T7_age_25_34), followed by 50-64 year olds (T7_age_50_64), and 18-24 year olds (T7_age_18_24).
 
-Annual wage growth in average weekly earnings (inc. bonuses) U1 to U2% in LFS_PERIOD_LABEL (U3 percentage points from the previous 3-month period). Wage growth excl. bonuses also U4 to U5% (U6 percentage points). Real wage growth (inc. bonuses) dropped to U7%.
+Annual wage growth in average weekly earnings (inc. bonuses) U8_total_dir to U8_total_cur% in LFS_PERIOD_LABEL (U8_total_dq percentage points from the previous 3-month period). Wage growth excl. bonuses also U8_reg_dir to U8_reg_cur% (U8_reg_dq percentage points). Real wage growth (inc. bonuses) dropped to U8_real_cur%.
 
-Pay growth was mostly driven by public sector (V1% on the quarter), compared to V2% in the private sector – V3.
+Pay growth was mostly driven by public sector (V9_public% on the quarter), compared to V9_private% in the private sector – V9_explanation.
 
-LFS redundancies W1 on the quarter to W2k in LFS_PERIOD_LABEL (W3k from the previous quarter). HR1 redundancies (notifications of redundancies) also W4 significantly, increasing by W5 on the month.
+LFS redundancies W10_lfs_dir on the quarter to W10_lfs_curk in LFS_PERIOD_LABEL (W10_lfs_dqk from the previous quarter). HR1 redundancies (notifications of redundancies) also W10_hr1_dir significantly, increasing by W10_hr1_dm on the month.

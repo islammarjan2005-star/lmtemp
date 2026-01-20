@@ -32,7 +32,6 @@ generate_summary <- function() {
   # ---------------------------------------------------------------------------
   # LINE 1: Payroll (PAYE) - quarterly and annual
   # ---------------------------------------------------------------------------
-  # Data: payroll_dy, payroll_dq, payroll_cur (all in thousands)
 
   payroll_pct_dy <- if (!is.na(payroll_dy) && !is.na(payroll_cur) && payroll_cur != 0) {
     (payroll_dy / (payroll_cur + abs(payroll_dy))) * 100
@@ -53,8 +52,6 @@ generate_summary <- function() {
   # ---------------------------------------------------------------------------
   # LINE 2: Flash estimate
   # ---------------------------------------------------------------------------
-  # Data: payroll_flash_dy, payroll_flash_dm (in thousands), payroll_flash_label
-  # Static: revision note (manual context)
 
   flash_pct_dy <- if (!is.na(payroll_flash_dy) && !is.na(payroll_flash_cur) && payroll_flash_cur != 0) {
     (payroll_flash_dy / (payroll_flash_cur * 1000 + abs(payroll_flash_dy))) * 100
@@ -64,7 +61,6 @@ generate_summary <- function() {
     (payroll_flash_dm / (payroll_flash_cur * 1000 + abs(payroll_flash_dm))) * 100
   } else NA_real_
 
-  # Static revision note - update manually each release
   flash_revision_note <- "although this is prone to revision (last month's 32k fall was revised down to 22k)"
 
   line2 <- glue(
@@ -76,23 +72,19 @@ generate_summary <- function() {
   )
 
   # ---------------------------------------------------------------------------
-  # LINE 3: Workforce jobs (STATIC - no data source available)
+  # LINE 3: Workforce jobs (STATIC)
   # ---------------------------------------------------------------------------
-  # Update manually each release
 
   line3 <- "Workforce jobs data shows a fall of 116,000 jobs on the quarter (-0.3%), mostly driven by a fall in self-employment jobs. On the year, jobs fell by 115,000 (-0.3%)."
 
   # ---------------------------------------------------------------------------
   # LINE 4: Vacancies
   # ---------------------------------------------------------------------------
-  # Data: vac_dq (quarterly change in thousands), vac_cur (level in thousands)
-  # vac_dq is already the quarterly change value
 
   vac_pct_dq <- if (!is.na(vac_dq) && !is.na(vac_cur) && vac_cur != 0) {
     (vac_dq / vac_cur) * 100
   } else NA_real_
 
-  # Build vacancies period label from lfs period
   vac_period_label <- lfs_period_label
 
   line4 <- glue(
@@ -102,9 +94,8 @@ generate_summary <- function() {
   )
 
   # ---------------------------------------------------------------------------
-  # LINE 5: LFS Summary (Employment, Unemployment, Inactivity rates)
+  # LINE 5: LFS Summary
   # ---------------------------------------------------------------------------
-  # Data: emp_rt_cur, emp_rt_dq, unemp_rt_cur, unemp_rt_dq, inact_rt_cur, inact_rt_dq
 
   line5 <- glue(
     'Labour Force Survey (LFS) suggests that in {lfs_period_label}, the employment rate ',
@@ -118,23 +109,20 @@ generate_summary <- function() {
   )
 
   # ---------------------------------------------------------------------------
-  # LINE 6: Youth Unemployment (STATIC - no age-specific data available)
+  # LINE 6: Youth Unemployment (STATIC)
   # ---------------------------------------------------------------------------
-  # Update manually each release
 
   line6 <- "Youth unemployment saw a substantial rise, with the number of unemployed 18-24 year olds rising by 85,000 on the quarter, the largest increase since November 2022, as the number of 18- to 24-year-olds out of work, at 546,000, rose to its highest level since 2015."
 
   # ---------------------------------------------------------------------------
-  # LINE 7: Age Group Payroll (STATIC - no age-specific payroll data available)
+  # LINE 7: Age Group Payroll (STATIC)
   # ---------------------------------------------------------------------------
-  # Update manually each release
 
   line7 <- "In contrast, the monthly drop in payrolled employees was largest for 25-34 year olds (-132k), followed by 50-64 year olds (-79k), and 18-24 year olds (-11k)."
 
   # ---------------------------------------------------------------------------
-  # LINE 8: Wages (Total, Regular, Real)
+  # LINE 8: Wages
   # ---------------------------------------------------------------------------
-  # Data: latest_wages, wages_total_qchange, latest_regular_cash, wages_reg_qchange, latest_wages_cpi
 
   line8 <- glue(
     'Annual wage growth in average weekly earnings (inc. bonuses) {dir_verb(wages_total_qchange)} to ',
@@ -149,10 +137,8 @@ generate_summary <- function() {
   )
 
   # ---------------------------------------------------------------------------
-  # LINE 9: Pay Growth Drivers (Public vs Private)
+  # LINE 9: Pay Growth Drivers
   # ---------------------------------------------------------------------------
-  # Data: wages_total_public, wages_total_private
-  # Static: explanation of base effects (manual context)
 
   pay_driver_explanation <- "this is largely statistical. Pay agreements in 2025 were paid earlier in the year than 2024, which meant 2024 pay was much lower, causing the annual growth rate to spike (base effects)"
 
@@ -163,10 +149,8 @@ generate_summary <- function() {
   )
 
   # ---------------------------------------------------------------------------
-  # LINE 10: Redundancies (LFS + HR1)
+  # LINE 10: Redundancies
   # ---------------------------------------------------------------------------
-  # Data: redund_cur (rate per 1000), redund_dq, hr1_dm, lfs_period_label
-  # Note: redund_cur is in thousands already from BEIR code
 
   line10 <- glue(
     'LFS redundancies {dir_verb(redund_dq)} on the quarter to {fmt_int(redund_cur)}k in {lfs_period_label} ',
@@ -175,7 +159,12 @@ generate_summary <- function() {
     '{ifelse(hr1_dm >= 0, "increasing", "decreasing")} by {fmt_int(abs(hr1_dm))} on the month.'
   )
 
+  # ---------------------------------------------------------------------------
+  # RETURN: Full lines + individual placeholder values
+  # ---------------------------------------------------------------------------
+
   list(
+    # Full generated lines
     line1 = line1,
     line2 = line2,
     line3 = line3,
@@ -185,7 +174,79 @@ generate_summary <- function() {
     line7 = line7,
     line8 = line8,
     line9 = line9,
-    line10 = line10
+    line10 = line10,
+
+    # LINE 1 placeholders (Payroll)
+    N1_dir = dir_word(payroll_dy),
+    N1_dir_ing = dir_ing(payroll_dy, "declining", "increasing"),
+    N1_dy_abs = fmt_int(abs(payroll_dy)),
+    N1_dy_pct = format(round(abs(payroll_pct_dy), 1), nsmall = 1),
+    N1_dq_abs = fmt_int(abs(payroll_dq)),
+    N1_dq_pct = format(round(abs(payroll_pct_dq), 1), nsmall = 1),
+
+    # LINE 2 placeholders (Flash)
+    O2_label = payroll_flash_label,
+    O2_dir = dir_verb(payroll_flash_dy),
+    O2_dy_abs = fmt_int(abs(payroll_flash_dy * 1000)),
+    O2_dy_pct = format(round(abs(flash_pct_dy), 1), nsmall = 1),
+    O2_dm_abs = fmt_int(abs(payroll_flash_dm * 1000)),
+    O2_dm_pct = format(round(abs(flash_pct_dm), 1), nsmall = 1),
+    O2_revision = flash_revision_note,
+
+    # LINE 3 placeholders (Workforce - STATIC)
+    P3_dq_abs = "116,000",
+    P3_dq_pct = "0.3",
+    P3_driver = "a fall in self-employment jobs",
+    P3_dy_abs = "115,000",
+    P3_dy_pct = "0.3",
+
+    # LINE 4 placeholders (Vacancies)
+    Q4_dir_ing = dir_ing(vac_dq, "falling", "rising"),
+    Q4_dq_abs = fmt_int(abs(vac_dq)),
+    Q4_dq_pct = format(round(abs(vac_pct_dq), 1), nsmall = 1),
+    Q4_cur = fmt_int(vac_cur),
+
+    # LINE 5 placeholders (LFS Rates)
+    R5_emp_dir = dir_verb(emp_rt_dq),
+    R5_emp_cur = format(round(emp_rt_cur, 1), nsmall = 1),
+    R5_emp_dq = paste0(ifelse(emp_rt_dq >= 0, "+", ""), format(round(emp_rt_dq, 1), nsmall = 1)),
+    R5_unemp_dir = dir_verb(unemp_rt_dq),
+    R5_unemp_cur = format(round(unemp_rt_cur, 1), nsmall = 1),
+    R5_unemp_dq = paste0(ifelse(unemp_rt_dq >= 0, "+", ""), format(round(unemp_rt_dq, 1), nsmall = 1)),
+    R5_inact_dir = dir_verb(inact_rt_dq),
+    R5_inact_cur = format(round(inact_rt_cur, 1), nsmall = 1),
+    R5_inact_dq = paste0(ifelse(inact_rt_dq >= 0, "+", ""), format(round(inact_rt_dq, 1), nsmall = 1)),
+
+    # LINE 6 placeholders (Youth - STATIC)
+    S6_dq = "85,000",
+    S6_context = "the largest increase since November 2022",
+    S6_level = "546,000",
+
+    # LINE 7 placeholders (Age Group - STATIC)
+    T7_age_25_34 = "-132k",
+    T7_age_50_64 = "-79k",
+    T7_age_18_24 = "-11k",
+
+    # LINE 8 placeholders (Wages)
+    U8_total_dir = dir_verb(wages_total_qchange),
+    U8_total_cur = format(round(latest_wages, 1), nsmall = 1),
+    U8_total_dq = paste0(ifelse(wages_total_qchange >= 0, "+", ""), format(round(wages_total_qchange, 1), nsmall = 1)),
+    U8_reg_dir = dir_verb(wages_reg_qchange),
+    U8_reg_cur = format(round(latest_regular_cash, 1), nsmall = 1),
+    U8_reg_dq = paste0(ifelse(wages_reg_qchange >= 0, "+", ""), format(round(wages_reg_qchange, 1), nsmall = 1)),
+    U8_real_cur = format(round(latest_wages_cpi, 1), nsmall = 1),
+
+    # LINE 9 placeholders (Pay Drivers)
+    V9_public = format(round(wages_total_public, 1), nsmall = 1),
+    V9_private = format(round(wages_total_private, 1), nsmall = 1),
+    V9_explanation = pay_driver_explanation,
+
+    # LINE 10 placeholders (Redundancies)
+    W10_lfs_dir = dir_verb(redund_dq),
+    W10_lfs_cur = fmt_int(redund_cur),
+    W10_lfs_dq = paste0(ifelse(redund_dq >= 0, "+", ""), fmt_int(redund_dq)),
+    W10_hr1_dir = dir_verb(hr1_dm),
+    W10_hr1_dm = fmt_int(abs(hr1_dm))
   )
 }
 
@@ -206,87 +267,3 @@ print_summary <- function(summary) {
   cat('9.', summary$line9, '\n\n')
   cat('10.', summary$line10, '\n\n')
 }
-
-# ==============================================================================
-# WORD DOCUMENT PLACEHOLDERS
-# ==============================================================================
-# Placeholder codes for Word template (matches word_output.R style)
-# Uses letters N-W (unused in dashboard) for summary lines 1-10
-# Conditional placeholders use _p/_n/_z suffixes for positive/negative/zero
-#
-# LINE 1 (Payroll): N prefix
-#   N1 = direction word ("fall"/"rise")
-#   N2 = direction -ing ("declining"/"increasing")
-#   N3 = annual change absolute (e.g. "113,000")
-#   N4 = annual change % (e.g. "0.4")
-#   N5 = quarterly change absolute (e.g. "24,000")
-#   N6 = quarterly change % (e.g. "0.1")
-#
-# LINE 2 (Flash): O prefix
-#   O1 = flash month label (e.g. "November 2025")
-#   O2 = direction ("fell"/"rose")
-#   O3 = annual change absolute (e.g. "171,000")
-#   O4 = annual change % (e.g. "0.6")
-#   O5 = monthly change absolute (e.g. "38,000")
-#   O6 = monthly change % (e.g. "0.1")
-#   O7 = revision note (static, manual update)
-#
-# LINE 3 (Workforce Jobs - STATIC): P prefix
-#   P1 = quarterly change absolute (e.g. "116,000")
-#   P2 = quarterly change % (e.g. "0.3")
-#   P3 = driver text (e.g. "a fall in self-employment jobs")
-#   P4 = annual change absolute (e.g. "115,000")
-#   P5 = annual change % (e.g. "0.3")
-#
-# LINE 4 (Vacancies): Q prefix
-#   Q1 = direction -ing ("falling"/"rising")
-#   Q2 = quarterly change absolute (e.g. "2,000")
-#   Q3 = quarterly change % (e.g. "0.2")
-#   Q4 = current level (e.g. "729,000")
-#
-# LINE 5 (LFS Rates): R prefix
-#   R1 = emp rate direction ("fell"/"rose")
-#   R2 = emp rate current (e.g. "74.9")
-#   R3 = emp rate change with sign (e.g. "-0.3")
-#   R4 = unemp rate direction ("fell"/"rose")
-#   R5 = unemp rate current (e.g. "5.1")
-#   R6 = unemp rate change with sign (e.g. "+0.4")
-#   R7 = inact rate direction ("fell"/"rose")
-#   R8 = inact rate current (e.g. "21.0")
-#   R9 = inact rate change with sign (e.g. "-0.1")
-#
-# LINE 6 (Youth Unemployment - STATIC): S prefix
-#   S1 = youth unemp quarterly change (e.g. "85,000")
-#   S2 = historical context (e.g. "the largest increase since November 2022")
-#   S3 = youth unemp level (e.g. "546,000")
-#
-# LINE 7 (Age Group Payroll - STATIC): T prefix
-#   T1 = 25-34 monthly change (e.g. "-132k")
-#   T2 = 50-64 monthly change (e.g. "-79k")
-#   T3 = 18-24 monthly change (e.g. "-11k")
-#
-# LINE 8 (Wages): U prefix
-#   U1 = total wages direction ("fell"/"rose")
-#   U2 = total wages current % (e.g. "4.7")
-#   U3 = total wages change with sign (e.g. "-0.1")
-#   U4 = regular wages direction ("fell"/"rose")
-#   U5 = regular wages current % (e.g. "4.6")
-#   U6 = regular wages change with sign (e.g. "-0.2")
-#   U7 = real wages current % (e.g. "1.0")
-#
-# LINE 9 (Pay Drivers): V prefix
-#   V1 = public sector wage % (e.g. "7.7")
-#   V2 = private sector wage % (e.g. "4.7")
-#   V3 = explanation (static, manual update)
-#
-# LINE 10 (Redundancies): W prefix
-#   W1 = LFS redund direction ("rose"/"fell")
-#   W2 = LFS redund level in k (e.g. "156")
-#   W3 = LFS redund change with sign (e.g. "+52")
-#   W4 = HR1 direction ("rose"/"fell")
-#   W5 = HR1 monthly change (e.g. "5,503")
-#
-# SHARED:
-#   LFS_PERIOD_LABEL = period label (e.g. "August to October 2025")
-#
-# ==============================================================================

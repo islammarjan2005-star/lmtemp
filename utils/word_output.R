@@ -157,10 +157,89 @@ generate_word_output <- function(template_path = "utils/DB.docx",
   doc <- replace_all(doc, "Z1", title_label)
   if (exists("lfs_period_label", inherits = TRUE)) doc <- replace_all(doc, "LFS_PERIOD_LABEL", lfs_period_label)
   
-  for (i in 1:6) doc <- replace_all(doc, paste0("sl", i), summary[[paste0("line", i)]])
+  # Summary lines 1-10 (full text)
+  for (i in 1:10) doc <- replace_all(doc, paste0("sl", i), summary[[paste0("line", i)]])
+
+  # Top ten lines
   for (i in 10:1) doc <- replace_all(doc, paste0("tt", i), top10[[paste0("line", i)]])
-  
+
   doc <- replace_all(doc, "RENDER_DATE", format(Sys.Date(), "%d %B %Y"))
+
+  # ===========================================================================
+  # SUMMARY LINE PLACEHOLDERS (individual values with underscores)
+  # ===========================================================================
+
+  # LINE 1 - Payroll (N1_*)
+  doc <- replace_all(doc, "N1_dir", summary$N1_dir)
+  doc <- replace_all(doc, "N1_dir_ing", summary$N1_dir_ing)
+  doc <- replace_all(doc, "N1_dy_abs", summary$N1_dy_abs)
+  doc <- replace_all(doc, "N1_dy_pct", summary$N1_dy_pct)
+  doc <- replace_all(doc, "N1_dq_abs", summary$N1_dq_abs)
+  doc <- replace_all(doc, "N1_dq_pct", summary$N1_dq_pct)
+
+  # LINE 2 - Flash (O2_*)
+  doc <- replace_all(doc, "O2_label", summary$O2_label)
+  doc <- replace_all(doc, "O2_dir", summary$O2_dir)
+  doc <- replace_all(doc, "O2_dy_abs", summary$O2_dy_abs)
+  doc <- replace_all(doc, "O2_dy_pct", summary$O2_dy_pct)
+  doc <- replace_all(doc, "O2_dm_abs", summary$O2_dm_abs)
+  doc <- replace_all(doc, "O2_dm_pct", summary$O2_dm_pct)
+  doc <- replace_all(doc, "O2_revision", summary$O2_revision)
+
+  # LINE 3 - Workforce Jobs STATIC (P3_*)
+  doc <- replace_all(doc, "P3_dq_abs", summary$P3_dq_abs)
+  doc <- replace_all(doc, "P3_dq_pct", summary$P3_dq_pct)
+  doc <- replace_all(doc, "P3_driver", summary$P3_driver)
+  doc <- replace_all(doc, "P3_dy_abs", summary$P3_dy_abs)
+  doc <- replace_all(doc, "P3_dy_pct", summary$P3_dy_pct)
+
+  # LINE 4 - Vacancies (Q4_*)
+  doc <- replace_all(doc, "Q4_dir_ing", summary$Q4_dir_ing)
+  doc <- replace_all(doc, "Q4_dq_abs", summary$Q4_dq_abs)
+  doc <- replace_all(doc, "Q4_dq_pct", summary$Q4_dq_pct)
+  doc <- replace_all(doc, "Q4_cur", summary$Q4_cur)
+
+  # LINE 5 - LFS Rates (R5_*)
+  doc <- replace_all(doc, "R5_emp_dir", summary$R5_emp_dir)
+  doc <- replace_all(doc, "R5_emp_cur", summary$R5_emp_cur)
+  doc <- replace_all(doc, "R5_emp_dq", summary$R5_emp_dq)
+  doc <- replace_all(doc, "R5_unemp_dir", summary$R5_unemp_dir)
+  doc <- replace_all(doc, "R5_unemp_cur", summary$R5_unemp_cur)
+  doc <- replace_all(doc, "R5_unemp_dq", summary$R5_unemp_dq)
+  doc <- replace_all(doc, "R5_inact_dir", summary$R5_inact_dir)
+  doc <- replace_all(doc, "R5_inact_cur", summary$R5_inact_cur)
+  doc <- replace_all(doc, "R5_inact_dq", summary$R5_inact_dq)
+
+  # LINE 6 - Youth Unemployment STATIC (S6_*)
+  doc <- replace_all(doc, "S6_dq", summary$S6_dq)
+  doc <- replace_all(doc, "S6_context", summary$S6_context)
+  doc <- replace_all(doc, "S6_level", summary$S6_level)
+
+  # LINE 7 - Age Group Payroll STATIC (T7_*)
+  doc <- replace_all(doc, "T7_age_25_34", summary$T7_age_25_34)
+  doc <- replace_all(doc, "T7_age_50_64", summary$T7_age_50_64)
+  doc <- replace_all(doc, "T7_age_18_24", summary$T7_age_18_24)
+
+  # LINE 8 - Wages (U8_*)
+  doc <- replace_all(doc, "U8_total_dir", summary$U8_total_dir)
+  doc <- replace_all(doc, "U8_total_cur", summary$U8_total_cur)
+  doc <- replace_all(doc, "U8_total_dq", summary$U8_total_dq)
+  doc <- replace_all(doc, "U8_reg_dir", summary$U8_reg_dir)
+  doc <- replace_all(doc, "U8_reg_cur", summary$U8_reg_cur)
+  doc <- replace_all(doc, "U8_reg_dq", summary$U8_reg_dq)
+  doc <- replace_all(doc, "U8_real_cur", summary$U8_real_cur)
+
+  # LINE 9 - Pay Drivers (V9_*)
+  doc <- replace_all(doc, "V9_public", summary$V9_public)
+  doc <- replace_all(doc, "V9_private", summary$V9_private)
+  doc <- replace_all(doc, "V9_explanation", summary$V9_explanation)
+
+  # LINE 10 - Redundancies (W10_*)
+  doc <- replace_all(doc, "W10_lfs_dir", summary$W10_lfs_dir)
+  doc <- replace_all(doc, "W10_lfs_cur", summary$W10_lfs_cur)
+  doc <- replace_all(doc, "W10_lfs_dq", summary$W10_lfs_dq)
+  doc <- replace_all(doc, "W10_hr1_dir", summary$W10_hr1_dir)
+  doc <- replace_all(doc, "W10_hr1_dm", summary$W10_hr1_dm)
   
   # CURRENT (no conditional except vacancies)
   doc <- replace_all(doc, "B1", fmt_count_000s_current(emp16_cur))
