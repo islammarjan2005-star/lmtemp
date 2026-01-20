@@ -1,0 +1,19 @@
+The number of payrolled employees (PAYE) continued to {{PAYROLL_DY_DIR}}, {{PAYROLL_DY_DIR_ING}} by {{PAYROLL_DY_ABS}} ({{PAYROLL_DY_PCT}}%) on the year, and by {{PAYROLL_DQ_ABS}} ({{PAYROLL_DQ_PCT}}%) on the quarter in {{LFS_PERIOD_LABEL}} (the period comparable with LFS).
+
+The 'flash' estimate for {{FLASH_LABEL}} suggests payroll employees {{FLASH_DIR}} by {{FLASH_DY_ABS}} ({{FLASH_DY_PCT}}%) on the year, and {{FLASH_DM_ABS}} ({{FLASH_DM_PCT}}%) on the month, {{FLASH_REVISION_NOTE}}.
+
+Workforce jobs data shows a fall of {{WFJ_DQ_ABS}} jobs on the quarter ({{WFJ_DQ_PCT}}%), mostly driven by {{WFJ_DRIVER}}. On the year, jobs fell by {{WFJ_DY_ABS}} ({{WFJ_DY_PCT}}%).
+
+Vacancies remain broadly unchanged, {{VAC_DIR_ING}} slightly by {{VAC_DQ_ABS}} ({{VAC_DQ_PCT}}%) on the quarter to {{VAC_CUR}} in {{VAC_PERIOD_LABEL}}.
+
+Labour Force Survey (LFS) suggests that in {{LFS_PERIOD_LABEL}}, the employment rate {{EMP_RT_DIR}} to {{EMP_RT_CUR}}%, {{EMP_RT_DQ}} percentage points compared to the previous quarter. On the quarter, unemployment slightly {{UNEMP_RT_DIR}} to {{UNEMP_RT_CUR}}% ({{UNEMP_RT_DQ}} percentage points) and inactivity {{INACT_RT_DIR}} marginally to {{INACT_RT_CUR}}% ({{INACT_RT_DQ}} percentage points).
+
+Youth unemployment saw a substantial rise, with the number of unemployed 18-24 year olds rising by {{YOUTH_UNEMP_DQ}} on the quarter, {{YOUTH_UNEMP_CONTEXT}}, as the number of 18- to 24-year-olds out of work, at {{YOUTH_UNEMP_LEVEL}}, rose to its highest level since 2015.
+
+In contrast, the monthly drop in payrolled employees was largest for 25-34 year olds ({{AGE_25_34_DM}}), followed by 50-64 year olds ({{AGE_50_64_DM}}), and 18-24 year olds ({{AGE_18_24_DM}}).
+
+Annual wage growth in average weekly earnings (inc. bonuses) {{WAGES_TOTAL_DIR}} to {{WAGES_TOTAL_CUR}}% in {{LFS_PERIOD_LABEL}} ({{WAGES_TOTAL_QCHANGE}} percentage points from the previous 3-month period). Wage growth excl. bonuses also {{WAGES_REG_DIR}} to {{WAGES_REG_CUR}}% ({{WAGES_REG_QCHANGE}} percentage points). Real wage growth (inc. bonuses) dropped to {{WAGES_REAL_CUR}}%.
+
+Pay growth was mostly driven by public sector ({{WAGES_PUBLIC}}% on the quarter), compared to {{WAGES_PRIVATE}}% in the private sector – {{PAY_DRIVER_EXPLANATION}}.
+
+LFS redundancies {{REDUND_DIR}} on the quarter to {{REDUND_CUR}}k in {{LFS_PERIOD_LABEL}} ({{REDUND_DQ}}k from the previous quarter). HR1 redundancies (notifications of redundancies) also {{HR1_DIR}} significantly, increasing by {{HR1_DM}} on the month.
