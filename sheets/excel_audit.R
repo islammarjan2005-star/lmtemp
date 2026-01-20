@@ -570,16 +570,82 @@ fetch_lfs_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
-  # Column names from A01 Sheet 1 & 2 (in order of appearance)
+  # Column names from A01 Sheet 1 & 2 - ALL codes
   code_names <- c(
-    "MGRZ" = "Total in employment (000s)",
-    "MGSC" = "Unemployed (000s)",
-    "MGSX" = "Unemployment rate (%)",
-    "LF24" = "Employment rate 16-64 (%)",
+    # Sheet 1: All aged 16 & over
+    "MGSL" = "All aged 16+ (000s)",
+    "MGSF" = "Economically active 16+ (000s)",
+    "MGRZ" = "Total in employment 16+ (000s)",
+    "MGSC" = "Unemployed 16+ (000s)",
+    "MGSI" = "Economically inactive 16+ (000s)",
+    "MGWG" = "Economic activity rate 16+ (%)",
+    "MGSR" = "Employment rate 16+ (%)",
+    "MGSX" = "Unemployment rate 16+ (%)",
+    "YBTC" = "Economic inactivity rate 16+ (%)",
+    # Sheet 1: All aged 16-64
+    "LF2O" = "All aged 16-64 (000s)",
+    "LF2K" = "Economically active 16-64 (000s)",
+    "LF2G" = "Total in employment 16-64 (000s)",
+    "LF2I" = "Unemployed 16-64 (000s)",
     "LF2M" = "Economically inactive 16-64 (000s)",
+    "LF22" = "Economic activity rate 16-64 (%)",
+    "LF24" = "Employment rate 16-64 (%)",
+    "LF2Q" = "Unemployment rate 16-64 (%)",
     "LF2S" = "Economic inactivity rate 16-64 (%)",
+    # Sheet 2: Aged 16-17
+    "YBTO" = "Employment 16-17 (000s)",
+    "YBUA" = "Employment rate 16-17 (%)",
+    "YBVH" = "Unemployment 16-17 (000s)",
+    "YBVK" = "Unemployment rate 16-17 (%)",
+    "YBZL" = "Activity 16-17 (000s)",
+    "YCAG" = "Activity rate 16-17 (%)",
+    "YCAS" = "Inactivity 16-17 (000s)",
+    "LWEX" = "Inactivity rate 16-17 (%)",
+    # Sheet 2: Aged 18-24
+    "YBTR" = "Employment 18-24 (000s)",
+    "YBUD" = "Employment rate 18-24 (%)",
+    "YBVN" = "Unemployment 18-24 (000s)",
+    "YBVQ" = "Unemployment rate 18-24 (%)",
+    "YBZO" = "Activity 18-24 (000s)",
+    "YCAJ" = "Activity rate 18-24 (%)",
+    "YCAV" = "Inactivity 18-24 (000s)",
+    "LWFA" = "Inactivity rate 18-24 (%)",
+    # Sheet 2: Aged 25-34
+    "YBTU" = "Employment 25-34 (000s)",
+    "YBUG" = "Employment rate 25-34 (%)",
+    "YCGM" = "Unemployment 25-34 (000s)",
+    "YCGP" = "Unemployment rate 25-34 (%)",
+    "YBZR" = "Activity 25-34 (000s)",
+    "YCAM" = "Activity rate 25-34 (%)",
+    "YCAY" = "Inactivity 25-34 (000s)",
+    "LWFD" = "Inactivity rate 25-34 (%)",
+    # Sheet 2: Aged 35-49
+    "YBTX" = "Employment 35-49 (000s)",
+    "YBUJ" = "Employment rate 35-49 (%)",
+    "YCGS" = "Unemployment 35-49 (000s)",
+    "YCGV" = "Unemployment rate 35-49 (%)",
+    "YBZU" = "Activity 35-49 (000s)",
+    "YCAP" = "Activity rate 35-49 (%)",
+    "YCBB" = "Inactivity 35-49 (000s)",
+    "LWFG" = "Inactivity rate 35-49 (%)",
+    # Sheet 2: Aged 50-64
+    "LF26" = "Employment 50-64 (000s)",
+    "LF2U" = "Employment rate 50-64 (%)",
+    "LF28" = "Unemployment 50-64 (000s)",
+    "LF2E" = "Unemployment rate 50-64 (%)",
+    "LF3A" = "Activity 50-64 (000s)",
+    "LF2C" = "Activity rate 50-64 (%)",
     "LF2A" = "Inactivity 50-64 (000s)",
-    "LF2W" = "Inactivity rate 50-64 (%)"
+    "LF2W" = "Inactivity rate 50-64 (%)",
+    # Sheet 2: Aged 65+
+    "LFK4" = "Employment 65+ (000s)",
+    "LFK6" = "Employment rate 65+ (%)",
+    "K5HU" = "Unemployment 65+ (000s)",
+    "K5HW" = "Unemployment rate 65+ (%)",
+    "LFK8" = "Activity 65+ (000s)",
+    "LFL2" = "Activity rate 65+ (%)",
+    "LFL4" = "Inactivity 65+ (000s)",
+    "LFL6" = "Inactivity rate 65+ (%)"
   )
   
   result <- raw %>%
@@ -603,8 +669,9 @@ fetch_vacancies_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
-  # Column names from A01 Sheet 19 (in order of appearance)
+  # Column names from A01 Sheet 19, 20, 21 - ALL vacancy codes
   code_names <- c(
+    # Sheet 19: Vacancies by size
     "AP2Y" = "All vacancies (000s)",
     "AP3K" = "Change on quarter (000s)",
     "AP3L" = "Percentage change (%)",
@@ -612,7 +679,29 @@ fetch_vacancies_wide <- function() {
     "ALY6" = "10 - 49 employed (000s)",
     "ALY7" = "50 - 249 employed (000s)",
     "ALY8" = "250 - 2,499 employed (000s)",
-    "ALY9" = "2,500 + employed (000s)"
+    "ALY9" = "2,500+ employed (000s)",
+    # Sheet 20: Vacancies and unemployment
+    "JPC5" = "Unemployed per vacancy",
+    # Sheet 21: Vacancies by industry
+    "JP9H" = "Mining & quarrying (000s)",
+    "JP9I" = "Manufacturing (000s)",
+    "JP9J" = "Electricity, gas, steam (000s)",
+    "JP9K" = "Water supply, sewerage (000s)",
+    "JP9L" = "Construction (000s)",
+    "JP9M" = "Wholesale & retail (000s)",
+    "JP9N" = "Transport & storage (000s)",
+    "JP9O" = "Accommodation & food (000s)",
+    "JP9P" = "Information & communication (000s)",
+    "JP9Q" = "Financial & insurance (000s)",
+    "JP9R" = "Real estate (000s)",
+    "JP9S" = "Professional & technical (000s)",
+    "JP9T" = "Admin & support (000s)",
+    "JP9U" = "Public admin & defence (000s)",
+    "JP9V" = "Education (000s)",
+    "JP9W" = "Health & social work (000s)",
+    "JP9X" = "Arts & recreation (000s)",
+    "JP9Y" = "Other services (000s)",
+    "JP9Z" = "Total services (000s)"
   )
   
   result <- raw %>%
@@ -806,15 +895,57 @@ fetch_inactivity_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
-  # Column names from A01 Sheet 11 (in order of appearance)
+  # Column names from A01 Sheet 11 - ALL codes
   code_names <- c(
+    # Inactivity by reason (levels, 000s)
     "LF63" = "Student (000s)",
     "LF65" = "Looking after family/home (000s)",
     "LF67" = "Temp sick (000s)",
     "LF69" = "Long-term sick (000s)",
     "LFL8" = "Discouraged workers (000s)",
     "LF6B" = "Retired (000s)",
-    "LF6D" = "Other (000s)"
+    "LF6D" = "Other (000s)",
+    "LFL9" = "Does not want job (000s)",
+    "LFM2" = "Wants a job (000s)",
+    # Inactivity by reason (percentages)
+    "LF6V" = "Total inactive 16-64 (%)",
+    "LF6X" = "Student (%)",
+    "LF6Z" = "Looking after family/home (%)",
+    "LF73" = "Temp sick (%)",
+    "LF75" = "Long-term sick (%)",
+    "LF77" = "Discouraged workers (%)",
+    "LF79" = "Retired (%)",
+    "LF7B" = "Other (%)",
+    "LF7D" = "Does not want job (%)",
+    "LF7F" = "Wants a job (%)",
+    # Wants a job breakdown
+    "LF6F" = "Wants job - Student (000s)",
+    "LFP7" = "Wants job - Family/home (000s)",
+    "LF6H" = "Wants job - Temp sick (000s)",
+    "LFP8" = "Wants job - Long-term sick (000s)",
+    "LF8B" = "Wants job - Discouraged (000s)",
+    "LF6J" = "Wants job - Other (000s)",
+    "LF7H" = "Total wants job 16-64 (%)",
+    "LF7J" = "Wants job - Student (%)",
+    "LF7L" = "Wants job - Family/home (%)",
+    "LF7N" = "Wants job - Temp sick (%)",
+    "LF7P" = "Wants job - Long-term sick (%)",
+    "LF7R" = "Wants job - Discouraged (%)",
+    "LF7T" = "Wants job - Other (%)",
+    # Does not want job breakdown
+    "LF6L" = "No want job - Student (000s)",
+    "LF6N" = "No want job - Family/home (000s)",
+    "LF6P" = "No want job - Temp sick (000s)",
+    "LF6R" = "No want job - Long-term sick (000s)",
+    "LF8E" = "No want job - Retired (000s)",
+    "LF6T" = "No want job - Other (000s)",
+    "LF7V" = "Total no want job 16-64 (%)",
+    "LF7X" = "No want job - Student (%)",
+    "LF7Z" = "No want job - Family/home (%)",
+    "LF83" = "No want job - Temp sick (%)",
+    "LF85" = "No want job - Long-term sick (%)",
+    "LF87" = "No want job - Retired (%)",
+    "LF89" = "No want job - Other (%)"
   )
   
   result <- raw %>%
