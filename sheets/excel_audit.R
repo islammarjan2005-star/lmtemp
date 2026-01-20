@@ -570,15 +570,16 @@ fetch_lfs_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
+  # Column names from A01 Sheet 1 & 2 (in order of appearance)
   code_names <- c(
-    "MGRZ" = "Employment 16+ (000s)",
-    "LF24" = "Employment Rate 16-64 (%)",
-    "MGSC" = "Unemployment 16+ (000s)",
-    "MGSX" = "Unemployment Rate 16+ (%)",
-    "LF2M" = "Inactivity 16-64 (000s)",
-    "LF2S" = "Inactivity Rate 16-64 (%)",
+    "MGRZ" = "Total in employment (000s)",
+    "MGSC" = "Unemployed (000s)",
+    "MGSX" = "Unemployment rate (%)",
+    "LF24" = "Employment rate 16-64 (%)",
+    "LF2M" = "Economically inactive 16-64 (000s)",
+    "LF2S" = "Economic inactivity rate 16-64 (%)",
     "LF2A" = "Inactivity 50-64 (000s)",
-    "LF2W" = "Inactivity Rate 50-64 (%)"
+    "LF2W" = "Inactivity rate 50-64 (%)"
   )
   
   result <- raw %>%
@@ -602,9 +603,16 @@ fetch_vacancies_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
+  # Column names from A01 Sheet 19 (in order of appearance)
   code_names <- c(
-    "AP2Y" = "Vacancies (000s)",
-    "AP3K" = "Quarterly Change (000s)"
+    "AP2Y" = "All vacancies (000s)",
+    "AP3K" = "Change on quarter (000s)",
+    "AP3L" = "Percentage change (%)",
+    "ALY5" = "1 - 9 employed (000s)",
+    "ALY6" = "10 - 49 employed (000s)",
+    "ALY7" = "50 - 249 employed (000s)",
+    "ALY8" = "250 - 2,499 employed (000s)",
+    "ALY9" = "2,500 + employed (000s)"
   )
   
   result <- raw %>%
@@ -675,11 +683,35 @@ fetch_wages_total_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
+  # Column names from A01 Sheet 13 (in order of appearance)
   code_names <- c(
-    "KAB9" = "AWE Total (£/week)",
-    "KAC3" = "AWE Total YoY (%)",
-    "KAC6" = "AWE Total Private YoY (%)",
-    "KAC9" = "AWE Total Public YoY (%)"
+    "KAB9" = "Whole Economy (£)",
+    "KAC2" = "Whole Economy YoY % (single month)",
+    "KAC3" = "Whole Economy YoY % (3 month avg)",
+    "KAC4" = "Private Sector (£)",
+    "KAC5" = "Private Sector YoY % (single month)",
+    "KAC6" = "Private Sector YoY % (3 month avg)",
+    "KAC7" = "Public Sector (£)",
+    "KAC8" = "Public Sector YoY % (single month)",
+    "KAC9" = "Public Sector YoY % (3 month avg)",
+    "K5BZ" = "Services (£)",
+    "K5C2" = "Services YoY % (single month)",
+    "K5C3" = "Services YoY % (3 month avg)",
+    "K5C4" = "Finance & Business (£)",
+    "K5C5" = "Finance & Business YoY % (single month)",
+    "K5C6" = "Finance & Business YoY % (3 month avg)",
+    "KAD8" = "Public excl Finance (£)",
+    "KAD9" = "Public excl Finance YoY % (single month)",
+    "KAE2" = "Public excl Finance YoY % (3 month avg)",
+    "K5CA" = "Manufacturing (£)",
+    "K5CB" = "Manufacturing YoY % (single month)",
+    "K5CC" = "Manufacturing YoY % (3 month avg)",
+    "K5CD" = "Construction (£)",
+    "K5CE" = "Construction YoY % (single month)",
+    "K5CF" = "Construction YoY % (3 month avg)",
+    "K5CG" = "Wholesale, Retail, Hotels (£)",
+    "K5CH" = "Wholesale, Retail, Hotels YoY % (single month)",
+    "K5CI" = "Wholesale, Retail, Hotels YoY % (3 month avg)"
   )
   
   result <- raw %>%
@@ -703,11 +735,35 @@ fetch_wages_regular_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
+  # Column names from A01 Sheet 15 (in order of appearance)
   code_names <- c(
-    "KAI7" = "AWE Regular (£/week)",
-    "KAI9" = "AWE Regular YoY (%)",
-    "KAJ4" = "AWE Regular Private YoY (%)",
-    "KAJ7" = "AWE Regular Public YoY (%)"
+    "KAI7" = "Whole Economy (£)",
+    "KAI8" = "Whole Economy YoY % (single month)",
+    "KAI9" = "Whole Economy YoY % (3 month avg)",
+    "KAJ2" = "Private Sector (£)",
+    "KAJ3" = "Private Sector YoY % (single month)",
+    "KAJ4" = "Private Sector YoY % (3 month avg)",
+    "KAJ5" = "Public Sector (£)",
+    "KAJ6" = "Public Sector YoY % (single month)",
+    "KAJ7" = "Public Sector YoY % (3 month avg)",
+    "K5DL" = "Services (£)",
+    "K5DM" = "Services YoY % (single month)",
+    "K5DN" = "Services YoY % (3 month avg)",
+    "K5DO" = "Finance & Business (£)",
+    "K5DP" = "Finance & Business YoY % (single month)",
+    "K5DQ" = "Finance & Business YoY % (3 month avg)",
+    "KAK6" = "Public excl Finance (£)",
+    "KAK7" = "Public excl Finance YoY % (single month)",
+    "KAK8" = "Public excl Finance YoY % (3 month avg)",
+    "K5DU" = "Manufacturing (£)",
+    "K5DV" = "Manufacturing YoY % (single month)",
+    "K5DW" = "Manufacturing YoY % (3 month avg)",
+    "K5DX" = "Construction (£)",
+    "K5DY" = "Construction YoY % (single month)",
+    "K5DZ" = "Construction YoY % (3 month avg)",
+    "K5E2" = "Wholesale, Retail, Hotels (£)",
+    "K5E3" = "Wholesale, Retail, Hotels YoY % (single month)",
+    "K5E4" = "Wholesale, Retail, Hotels YoY % (3 month avg)"
   )
   
   result <- raw %>%
@@ -750,14 +806,15 @@ fetch_inactivity_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
+  # Column names from A01 Sheet 11 (in order of appearance)
   code_names <- c(
-    "LF63" = "Student",
-    "LF65" = "Family/Home",
-    "LF67" = "Temp Sick",
-    "LF69" = "Long-term Sick",
-    "LFL8" = "Discouraged",
-    "LF6B" = "Retired",
-    "LF6D" = "Other"
+    "LF63" = "Student (000s)",
+    "LF65" = "Looking after family/home (000s)",
+    "LF67" = "Temp sick (000s)",
+    "LF69" = "Long-term sick (000s)",
+    "LFL8" = "Discouraged workers (000s)",
+    "LF6B" = "Retired (000s)",
+    "LF6D" = "Other (000s)"
   )
   
   result <- raw %>%
@@ -781,7 +838,15 @@ fetch_redundancy_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
-  code_names <- c("BEIR" = "Redundancy Rate (per 1000)")
+  # Column names from A01 Sheet 10 (in order of appearance)
+  code_names <- c(
+    "BEAO" = "People Level (000s)",
+    "BEIR" = "People Rate per 1,000",
+    "BEIU" = "Men Level (000s)",
+    "BEIX" = "Men Rate per 1,000",
+    "BEJA" = "Women Level (000s)",
+    "BEJD" = "Women Rate per 1,000"
+  )
   
   result <- raw %>%
     mutate(
@@ -804,7 +869,12 @@ fetch_days_lost_wide <- function() {
   raw <- fetch_db(query)
   if (nrow(raw) == 0) return(tibble())
   
-  code_names <- c("BBFW" = "Days Lost (000s)")
+  # Column names from A01 Sheet 18 (in order of appearance)
+  code_names <- c(
+    "BBFW" = "Working days lost (000s)",
+    "BLUU" = "Number of stoppages",
+    "BLUT" = "Workers involved (000s)"
+  )
   
   result <- raw %>%
     mutate(
