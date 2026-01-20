@@ -210,81 +210,83 @@ print_summary <- function(summary) {
 # ==============================================================================
 # WORD DOCUMENT PLACEHOLDERS
 # ==============================================================================
-# Use these placeholders in your Word template. They will be replaced by
-# officer/flextable or similar R packages.
+# Placeholder codes for Word template (matches word_output.R style)
+# Uses letters N-W (unused in dashboard) for summary lines 1-10
+# Conditional placeholders use _p/_n/_z suffixes for positive/negative/zero
 #
-# LINE 1 (Payroll):
-#   {{PAYROLL_DY_ABS}}        - Absolute annual change (e.g., "113,000")
-#   {{PAYROLL_DY_PCT}}        - Annual % change (e.g., "0.4")
-#   {{PAYROLL_DQ_ABS}}        - Absolute quarterly change (e.g., "24,000")
-#   {{PAYROLL_DQ_PCT}}        - Quarterly % change (e.g., "0.1")
-#   {{PAYROLL_DY_DIR}}        - Direction word: "fall" or "rise"
-#   {{PAYROLL_DY_DIR_ING}}    - Direction: "declining" or "increasing"
-#   {{LFS_PERIOD_LABEL}}      - Period label (e.g., "August to October 2025")
+# LINE 1 (Payroll): N prefix
+#   N1 = direction word ("fall"/"rise")
+#   N2 = direction -ing ("declining"/"increasing")
+#   N3 = annual change absolute (e.g. "113,000")
+#   N4 = annual change % (e.g. "0.4")
+#   N5 = quarterly change absolute (e.g. "24,000")
+#   N6 = quarterly change % (e.g. "0.1")
 #
-# LINE 2 (Flash):
-#   {{FLASH_LABEL}}           - Flash month (e.g., "November 2025")
-#   {{FLASH_DY_ABS}}          - Absolute annual change (e.g., "171,000")
-#   {{FLASH_DY_PCT}}          - Annual % change (e.g., "0.6")
-#   {{FLASH_DM_ABS}}          - Absolute monthly change (e.g., "38,000")
-#   {{FLASH_DM_PCT}}          - Monthly % change (e.g., "0.1")
-#   {{FLASH_DIR}}             - Direction: "fell" or "rose"
-#   {{FLASH_REVISION_NOTE}}   - Static revision context (manual update)
+# LINE 2 (Flash): O prefix
+#   O1 = flash month label (e.g. "November 2025")
+#   O2 = direction ("fell"/"rose")
+#   O3 = annual change absolute (e.g. "171,000")
+#   O4 = annual change % (e.g. "0.6")
+#   O5 = monthly change absolute (e.g. "38,000")
+#   O6 = monthly change % (e.g. "0.1")
+#   O7 = revision note (static, manual update)
 #
-# LINE 3 (Workforce Jobs) - STATIC:
-#   {{WFJ_DQ_ABS}}            - Quarterly job change (manual)
-#   {{WFJ_DQ_PCT}}            - Quarterly % change (manual)
-#   {{WFJ_DY_ABS}}            - Annual job change (manual)
-#   {{WFJ_DY_PCT}}            - Annual % change (manual)
-#   {{WFJ_DRIVER}}            - Main driver (manual)
+# LINE 3 (Workforce Jobs - STATIC): P prefix
+#   P1 = quarterly change absolute (e.g. "116,000")
+#   P2 = quarterly change % (e.g. "0.3")
+#   P3 = driver text (e.g. "a fall in self-employment jobs")
+#   P4 = annual change absolute (e.g. "115,000")
+#   P5 = annual change % (e.g. "0.3")
 #
-# LINE 4 (Vacancies):
-#   {{VAC_DQ_ABS}}            - Absolute quarterly change (e.g., "2,000")
-#   {{VAC_DQ_PCT}}            - Quarterly % change (e.g., "0.2")
-#   {{VAC_CUR}}               - Current level (e.g., "729,000")
-#   {{VAC_DIR_ING}}           - Direction: "falling" or "rising"
-#   {{VAC_PERIOD_LABEL}}      - Period (same as LFS_PERIOD_LABEL)
+# LINE 4 (Vacancies): Q prefix
+#   Q1 = direction -ing ("falling"/"rising")
+#   Q2 = quarterly change absolute (e.g. "2,000")
+#   Q3 = quarterly change % (e.g. "0.2")
+#   Q4 = current level (e.g. "729,000")
 #
-# LINE 5 (LFS Rates):
-#   {{EMP_RT_CUR}}            - Employment rate (e.g., "74.9")
-#   {{EMP_RT_DQ}}             - Employment rate change with sign (e.g., "-0.3")
-#   {{EMP_RT_DIR}}            - Direction: "fell" or "rose"
-#   {{UNEMP_RT_CUR}}          - Unemployment rate (e.g., "5.1")
-#   {{UNEMP_RT_DQ}}           - Unemployment rate change with sign (e.g., "+0.4")
-#   {{UNEMP_RT_DIR}}          - Direction: "fell" or "rose"
-#   {{INACT_RT_CUR}}          - Inactivity rate (e.g., "21.0")
-#   {{INACT_RT_DQ}}           - Inactivity rate change with sign (e.g., "-0.1")
-#   {{INACT_RT_DIR}}          - Direction: "fell" or "rose"
+# LINE 5 (LFS Rates): R prefix
+#   R1 = emp rate direction ("fell"/"rose")
+#   R2 = emp rate current (e.g. "74.9")
+#   R3 = emp rate change with sign (e.g. "-0.3")
+#   R4 = unemp rate direction ("fell"/"rose")
+#   R5 = unemp rate current (e.g. "5.1")
+#   R6 = unemp rate change with sign (e.g. "+0.4")
+#   R7 = inact rate direction ("fell"/"rose")
+#   R8 = inact rate current (e.g. "21.0")
+#   R9 = inact rate change with sign (e.g. "-0.1")
 #
-# LINE 6 (Youth Unemployment) - STATIC:
-#   {{YOUTH_UNEMP_DQ}}        - Youth unemployment change (manual)
-#   {{YOUTH_UNEMP_LEVEL}}     - Youth unemployment level (manual)
-#   {{YOUTH_UNEMP_CONTEXT}}   - Historical context (manual)
+# LINE 6 (Youth Unemployment - STATIC): S prefix
+#   S1 = youth unemp quarterly change (e.g. "85,000")
+#   S2 = historical context (e.g. "the largest increase since November 2022")
+#   S3 = youth unemp level (e.g. "546,000")
 #
-# LINE 7 (Age Group Payroll) - STATIC:
-#   {{AGE_25_34_DM}}          - 25-34 monthly change (manual)
-#   {{AGE_50_64_DM}}          - 50-64 monthly change (manual)
-#   {{AGE_18_24_DM}}          - 18-24 monthly change (manual)
+# LINE 7 (Age Group Payroll - STATIC): T prefix
+#   T1 = 25-34 monthly change (e.g. "-132k")
+#   T2 = 50-64 monthly change (e.g. "-79k")
+#   T3 = 18-24 monthly change (e.g. "-11k")
 #
-# LINE 8 (Wages):
-#   {{WAGES_TOTAL_CUR}}       - Total wage growth % (e.g., "4.7")
-#   {{WAGES_TOTAL_QCHANGE}}   - Change from prev quarter with sign (e.g., "-0.1")
-#   {{WAGES_TOTAL_DIR}}       - Direction: "fell" or "rose"
-#   {{WAGES_REG_CUR}}         - Regular wage growth % (e.g., "4.6")
-#   {{WAGES_REG_QCHANGE}}     - Change with sign (e.g., "-0.2")
-#   {{WAGES_REG_DIR}}         - Direction: "fell" or "rose"
-#   {{WAGES_REAL_CUR}}        - Real wage growth % (e.g., "1.0")
+# LINE 8 (Wages): U prefix
+#   U1 = total wages direction ("fell"/"rose")
+#   U2 = total wages current % (e.g. "4.7")
+#   U3 = total wages change with sign (e.g. "-0.1")
+#   U4 = regular wages direction ("fell"/"rose")
+#   U5 = regular wages current % (e.g. "4.6")
+#   U6 = regular wages change with sign (e.g. "-0.2")
+#   U7 = real wages current % (e.g. "1.0")
 #
-# LINE 9 (Pay Drivers):
-#   {{WAGES_PUBLIC}}          - Public sector wage growth % (e.g., "7.7")
-#   {{WAGES_PRIVATE}}         - Private sector wage growth % (e.g., "4.7")
-#   {{PAY_DRIVER_EXPLANATION}} - Static context about base effects (manual)
+# LINE 9 (Pay Drivers): V prefix
+#   V1 = public sector wage % (e.g. "7.7")
+#   V2 = private sector wage % (e.g. "4.7")
+#   V3 = explanation (static, manual update)
 #
-# LINE 10 (Redundancies):
-#   {{REDUND_CUR}}            - LFS redundancy level in k (e.g., "156")
-#   {{REDUND_DQ}}             - Quarterly change with sign (e.g., "+52")
-#   {{REDUND_DIR}}            - Direction: "rose" or "fell"
-#   {{HR1_DM}}                - HR1 monthly change (e.g., "5,503")
-#   {{HR1_DIR}}               - Direction: "rose" or "fell"
+# LINE 10 (Redundancies): W prefix
+#   W1 = LFS redund direction ("rose"/"fell")
+#   W2 = LFS redund level in k (e.g. "156")
+#   W3 = LFS redund change with sign (e.g. "+52")
+#   W4 = HR1 direction ("rose"/"fell")
+#   W5 = HR1 monthly change (e.g. "5,503")
+#
+# SHARED:
+#   LFS_PERIOD_LABEL = period label (e.g. "August to October 2025")
 #
 # ==============================================================================
