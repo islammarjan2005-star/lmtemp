@@ -462,12 +462,40 @@ build_data_sheet_with_summary <- function(wb, sheet_name, title, data, source_in
       lab_election <- if (!is.null(election_label)) election_label else "2024-06-01 00:00:00"
     }
     
-    # Find data row indices by string matching
+    # Find data row indices by string matching (case-insensitive, handles variations)
     find_data_row <- function(label) {
-      idx <- which(trimws(data$Date) == trimws(label))
+      if (is.null(label) || is.na(label) || label == "") return(NA)
+
+      dates <- trimws(data$Date)
+      search <- trimws(label)
+
+      # 1. Exact match (case-insensitive)
+      idx <- which(tolower(dates) == tolower(search))
       if (length(idx) > 0) return(idx[1])
-      idx <- which(startsWith(trimws(data$Date), trimws(label)))
+
+      # 2. StartsWith match (case-insensitive)
+      idx <- which(startsWith(tolower(dates), tolower(search)))
       if (length(idx) > 0) return(idx[1])
+
+      # 3. For LFS labels like "Aug-Oct 2025", try matching with different separators
+      # Handle variations like "Aug - Oct 2025" or "Aug–Oct 2025" (en-dash)
+      normalized_search <- gsub("[\\s\\-–—]+", ".*", search)  # Replace any separator with regex
+      idx <- which(grepl(normalized_search, dates, ignore.case = TRUE))
+      if (length(idx) > 0) return(idx[1])
+
+      # 4. Try to match the year and months separately for LFS-style labels
+      if (grepl("^[A-Za-z]{3}-[A-Za-z]{3}\\s+[0-9]{4}", search)) {
+        parts <- strsplit(search, "[\\s\\-]+")[[1]]
+        if (length(parts) >= 3) {
+          month1 <- parts[1]
+          month2 <- parts[2]
+          year <- parts[3]
+          pattern <- paste0(month1, ".*", month2, ".*", year)
+          idx <- which(grepl(pattern, dates, ignore.case = TRUE))
+          if (length(idx) > 0) return(idx[1])
+        }
+      }
+
       NA
     }
     
@@ -521,19 +549,27 @@ build_data_sheet_with_summary <- function(wb, sheet_name, title, data, source_in
       # Write formulas for each value column
       for (i in seq_along(value_cols)) {
         col_letter <- LETTERS[i + 1]  # B, C, D, etc.
-        
+        formula_written <- FALSE
+
         if (sr$is_current) {
           # Current: just reference the cell
           if (!is.na(excel_row_cur)) {
             formula <- paste0("=", col_letter, excel_row_cur)
             writeFormula(wb, sheet_name, formula, startRow = row_num, startCol = i + 1)
+            formula_written <- TRUE
           }
         } else {
           # Change: current - comparison
           if (!is.na(excel_row_cur) && !is.na(sr$comp_excel_row)) {
             formula <- paste0("=", col_letter, excel_row_cur, "-", col_letter, sr$comp_excel_row)
             writeFormula(wb, sheet_name, formula, startRow = row_num, startCol = i + 1)
+            formula_written <- TRUE
           }
+        }
+
+        # Write "N/A" if no formula was written (missing reference period data)
+        if (!formula_written) {
+          writeData(wb, sheet_name, "N/A", startRow = row_num, startCol = i + 1)
         }
         addStyle(wb, sheet_name, style_summary_value, rows = row_num, cols = i + 1)
       }
